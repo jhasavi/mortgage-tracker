@@ -246,12 +246,13 @@ def main():
         result = run_collector(run_type=args.run_type, sources_path=args.sources)
         
         # Exit with appropriate code
-        if result["status"] == "success":
+        # Both "success" and "partial" are considered successful runs
+        # Partial means at least one source succeeded (which is good!)
+        if result["status"] in ["success", "partial"]:
             sys.exit(0)
-        elif result["status"] == "partial":
-            sys.exit(1)
         else:
-            sys.exit(2)
+            # Only fail if NO sources succeeded
+            sys.exit(1)
             
     except Exception as e:
         logger.exception(f"Fatal error: {e}")
