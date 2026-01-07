@@ -26,13 +26,13 @@ jobs:
       - name: Run collector
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE }}
           EMAIL_PROVIDER_KEY: ${{ secrets.EMAIL_PROVIDER_KEY }}
-          DEFAULT_STATE: ${{ secrets.DEFAULT_STATE }}
-          DEFAULT_LOAN_AMOUNT: ${{ secrets.DEFAULT_LOAN_AMOUNT }}
-          DEFAULT_LTV: ${{ secrets.DEFAULT_LTV }}
-          DEFAULT_FICO: ${{ secrets.DEFAULT_FICO }}
-          DEFAULT_LOCK_DAYS: ${{ secrets.DEFAULT_LOCK_DAYS }}
+          DEFAULT_STATE: MA
+          DEFAULT_LOAN_AMOUNT: '600000'
+          DEFAULT_LTV: '80'
+          DEFAULT_FICO: '760'
+          DEFAULT_LOCK_DAYS: '30'
         run: |
           python -m mortgage_tracker.main
 
