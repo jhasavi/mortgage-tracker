@@ -23,7 +23,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install .
 
-      - name: Run collector
+      - name: Run collector (real data)
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE }}
@@ -34,7 +34,7 @@ jobs:
           DEFAULT_FICO: '760'
           DEFAULT_LOCK_DAYS: '30'
         run: |
-          python -m mortgage_tracker.main
+          python -m mortgage_tracker.main --run-type real
 
       - name: Archive logs
         if: always()
