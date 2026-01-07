@@ -5,6 +5,14 @@ defaults:
   fico: 760
   lock_days: 30
 
+# Parser reliability levels:
+# - high: Consistently works, simple HTML tables, data always accurate
+# - medium: Usually works but may occasionally fail, moderate complexity
+# - low: Frequently fails, complex structure, or requires special handling
+# - untested: Not yet tested or no parser implemented
+#
+# Priority: high reliability parsers are enabled first to ensure good data coverage
+
 sources:
   # ========================================
   # Massachusetts Credit Unions (15)
@@ -17,7 +25,9 @@ sources:
     rate_url: https://www.dcu.org/borrow/mortgage-loans/home-mortgage-loans.html
     parser_key: dcu
     enabled: true
+    parser_reliability: high
     tags: [MA_local, cu]
+    notes: "Simple HTML table, includes points data"
     
   - id: rockland_fcu
     name: Rockland Federal Credit Union
@@ -252,16 +262,20 @@ sources:
     rate_url: https://www.navyfederal.org/loans-cards/mortgage/mortgage-rates.html
     parser_key: navy_federal
     enabled: true
+    parser_reliability: high
     tags: [national, cu]
+    notes: "Clean HTML table with rate/APR/points"
     
   - id: ncsecu
     name: State Employees' Credit Union (NCSECU)
     org_type: credit_union
     homepage_url: https://www.ncsecu.org/
-    url: https://www.ncsecu.org/
-    method: none
+    rate_url: https://www.ncsecu.org/Rates
+    parser_key: ncsecu
     enabled: false
+    parser_reliability: low
     tags: [national, cu]
+    notes: "No parseable rate table found"
     
   - id: penfed
     name: PenFed Credit Union
@@ -270,6 +284,7 @@ sources:
     rate_url: https://www.penfed.org/mortgages/mortgage-rates
     parser_key: penfed
     enabled: false
+    parser_reliability: low
     tags: [national, cu]
     notes: "Rate page times out or blocks scraping"
     
@@ -307,35 +322,42 @@ sources:
     rate_url: https://www.alliantcreditunion.org/bank/mortgage-rates
     parser_key: alliant
     enabled: false
+    parser_reliability: low
     tags: [national, cu]
-    notes: "No static rate table found on page"
+    notes: "No static rate table found on page (JS-rendered)"
     
   - id: america_first_cu
-    name: America First Credit Union (UT)
+    name: America First Credit Union
     org_type: credit_union
     homepage_url: https://www.americafirst.com/
-    url: https://www.americafirst.com/
-    method: none
+    rate_url: https://www.americafirst.com/mortgages.html
+    parser_key: america_first
     enabled: false
+    parser_reliability: low
     tags: [national, cu]
+    notes: "No parseable rate table found"
     
   - id: first_tech_fcu
     name: First Tech Federal Credit Union
     org_type: credit_union
     homepage_url: https://www.firsttechfed.com/
-    url: https://www.firsttechfed.com/
-    method: none
-    enabled: false
+    rate_url: https://www.firsttechfed.com/home-loans/mortgage-rates
+    parser_key: first_tech
+    enabled: true
+    parser_reliability: medium
     tags: [national, cu]
+    notes: "Testing parser"
     
   - id: patelco_cu
     name: Patelco Credit Union
     org_type: credit_union
     homepage_url: https://www.patelco.org/
-    url: https://www.patelco.org/
-    method: none
-    enabled: false
+    rate_url: https://www.patelco.org/rates
+    parser_key: patelco
+    enabled: true
+    parser_reliability: medium
     tags: [national, cu]
+    notes: "Testing parser"
     
   # ========================================
   # Nationwide Lenders (15)

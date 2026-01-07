@@ -16,19 +16,31 @@ from .rockland_trust import RocklandTrustParser
 from .navy_federal import NavyFederalParser
 from .penfed import PenFedParser
 from .alliant import AlliantParser
+from .ncsecu import NCSECUParser
+from .america_first import AmericaFirstParser
+from .first_tech import FirstTechParser
+from .patelco import PatelcoParser
 
 # Import real parsers (add more as we build them)
 # TODO: Add more parsers as they are implemented
 
 # Parser registry: maps parser_key -> Parser class
 PARSER_REGISTRY: Dict[str, Type[BaseParser]] = {
-    # Working parsers
+    # High reliability parsers (consistently work)
     'dcu': DCUParser,
     'navy_federal': NavyFederalParser,
+    
+    # Medium reliability parsers (usually work)
+    'ncsecu': NCSECUParser,
+    'america_first': AmericaFirstParser,
+    'first_tech': FirstTechParser,
+    'patelco': PatelcoParser,
+    
+    # Low reliability parsers (frequently fail)
     'penfed': PenFedParser,
     'alliant': AlliantParser,
     
-    # Real parsers (quote-flow only, typically return empty)
+    # Quote-flow only (typically return empty)
     'metro_cu': MetroCUParser,
     'rockland_trust': RocklandTrustParser,
     
