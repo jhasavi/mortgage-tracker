@@ -1,0 +1,50 @@
+# List of data sources (placeholder URLs)
+# method: parser module name (example_html_table or example_json_endpoint)
+
+defaults:
+  state: MA
+  loan_amount: 600000
+  ltv: 80
+  fico: 760
+  lock_days: 30
+
+sources:
+  - name: DCU (Digital Federal Credit Union)
+    org_type: credit_union
+    homepage_url: https://www.dcu.org/
+    rate_url: https://www.dcu.org/borrow/mortgage-loans/home-mortgage-loans.html
+    method: dcu
+    enabled: true
+    notes: "Parses schema.org structured data - WORKING"
+
+  - name: Rockland Trust
+    org_type: bank
+    homepage_url: https://www.rocklandtrust.com/
+    rate_url: https://www.rocklandtrust.com/personal-banking/borrow/mortgages
+    method: dcu
+    enabled: true
+    notes: "Try schema.org parsing first"
+
+  - name: Eastern Bank
+    org_type: bank
+    homepage_url: https://www.easternbank.com/
+    rate_url: https://www.easternbank.com/personal/home-loans/mortgage-rates
+    method: dcu
+    enabled: true
+    notes: "Try schema.org parsing first"
+
+  - name: Cambridge Savings Bank
+    org_type: bank
+    homepage_url: https://www.cambridgesavings.com/
+    rate_url: https://www.cambridgesavings.com/personal/borrow/mortgages
+    method: dcu
+    enabled: true
+    notes: "Try schema.org parsing first"
+
+  - name: Needham Bank
+    org_type: bank
+    homepage_url: https://www.needhambank.com/
+    rate_url: https://www.needhambank.com/personal/borrow/mortgages/mortgage-rates
+    method: dcu
+    enabled: true
+    notes: "Try schema.org parsing first"
