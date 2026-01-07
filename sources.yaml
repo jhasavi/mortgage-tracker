@@ -249,9 +249,9 @@ sources:
     name: Navy Federal Credit Union
     org_type: credit_union
     homepage_url: https://www.navyfederal.org/
-    url: https://www.navyfederal.org/
-    method: none
-    enabled: false
+    rate_url: https://www.navyfederal.org/loans-cards/mortgage/mortgage-rates.html
+    parser_key: navy_federal
+    enabled: true
     tags: [national, cu]
     
   - id: ncsecu
@@ -267,10 +267,11 @@ sources:
     name: PenFed Credit Union
     org_type: credit_union
     homepage_url: https://www.penfed.org/
-    url: https://www.penfed.org/
-    method: none
+    rate_url: https://www.penfed.org/mortgages/mortgage-rates
+    parser_key: penfed
     enabled: false
     tags: [national, cu]
+    notes: "Rate page times out or blocks scraping"
     
   - id: schoolsfirst_fcu
     name: SchoolsFirst FCU
@@ -303,10 +304,11 @@ sources:
     name: Alliant Credit Union
     org_type: credit_union
     homepage_url: https://www.alliantcreditunion.org/
-    url: https://www.alliantcreditunion.org/
-    method: none
+    rate_url: https://www.alliantcreditunion.org/bank/mortgage-rates
+    parser_key: alliant
     enabled: false
     tags: [national, cu]
+    notes: "No static rate table found on page"
     
   - id: america_first_cu
     name: America First Credit Union (UT)

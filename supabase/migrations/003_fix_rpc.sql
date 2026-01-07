@@ -44,24 +44,24 @@ BEGIN
   -- If we have real data, return it
   IF real_count > 0 THEN
     RETURN QUERY
-    SELECT 
-      o.id,
-      o.run_id,
-      s.id as source_id,
-      s.name as lender_name,
-      o.category,
-      o.rate,
-      o.apr,
-      o.points,
-      o.lender_fees,
-      o.state,
-      o.loan_amount,
-      o.ltv,
-      o.fico,
-      o.lock_days,
-      o.created_at as updated_at,
-      o.data_source,
-      false as is_fallback
+      SELECT 
+        o.id,
+        o.run_id,
+        s.id as source_id,
+        s.name as lender_name,
+        o.category,
+        o.rate,
+        o.apr,
+        o.points,
+        o.lender_fees,
+        o.state,
+        o.loan_amount,
+        o.ltv::integer,
+        o.fico::integer,
+        o.lock_days::integer,
+        o.created_at as updated_at,
+        o.data_source,
+        false as is_fallback
     FROM public.offers_normalized o
     JOIN public.sources s ON o.source_id = s.id
     WHERE o.run_id = latest_real_run_id
@@ -92,9 +92,9 @@ BEGIN
         o.lender_fees,
         o.state,
         o.loan_amount,
-        o.ltv,
-        o.fico,
-        o.lock_days,
+        o.ltv::integer,
+        o.fico::integer,
+        o.lock_days::integer,
         o.created_at as updated_at,
         o.data_source,
         true as is_fallback

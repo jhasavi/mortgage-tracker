@@ -13,6 +13,9 @@ from .example_html_table import ExampleHtmlTableParser
 from .example_json_endpoint import ExampleJsonEndpointParser
 from .metro_cu import MetroCUParser
 from .rockland_trust import RocklandTrustParser
+from .navy_federal import NavyFederalParser
+from .penfed import PenFedParser
+from .alliant import AlliantParser
 
 # Import real parsers (add more as we build them)
 # TODO: Add more parsers as they are implemented
@@ -21,6 +24,9 @@ from .rockland_trust import RocklandTrustParser
 PARSER_REGISTRY: Dict[str, Type[BaseParser]] = {
     # Working parsers
     'dcu': DCUParser,
+    'navy_federal': NavyFederalParser,
+    'penfed': PenFedParser,
+    'alliant': AlliantParser,
     
     # Real parsers (quote-flow only, typically return empty)
     'metro_cu': MetroCUParser,
