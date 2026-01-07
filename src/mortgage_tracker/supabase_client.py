@@ -33,15 +33,31 @@ class SupabaseWriter:
 
     def upsert_source(self, src: Dict[str, Any]) -> int:
         # Insert or ensure exists by name
-        res = self.client.table("sources").upsert({
+        # Use parser_key as method for backward compatibility
+        parser_key = src.get("parser_key")
+        method_val = src.get("method")
+        method = parser_key or method_val or "unknown"
+        
+        data = {
             "name": src.get("name"),
             "org_type": src.get("org_type"),
             "homepage_url": src.get("homepage_url"),
-            "rate_url": src.get("rate_url"),
-            "method": src.get("method"),
+            "rate_url": src.get("rate_url") or src.get("url"),
+            "method": method,
             "enabled": bool(src.get("enabled", True)),
             "notes": src.get("notes"),
-        }, on_conflict="name").execute()
+        }
+        
+        # First try to find existing source
+        existing = self.client.table("sources").select("id").eq("name", src.get("name")).execute()
+        
+        if existing.data:
+            # Update existing
+            res = self.client.table("sources").update(data).eq("name", src.get("name")).execute()
+        else:
+            # Insert new
+            res = self.client.table("sources").insert(data).execute()
+            
         return res.data[0]["id"]
 
     def insert_snapshot(self, snapshot: Dict[str, Any]) -> int:

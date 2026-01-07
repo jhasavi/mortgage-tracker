@@ -71,7 +71,7 @@ def run_collector(run_type: str = "real", sources_path: str = None) -> Dict[str,
     sb = SupabaseWriter(cfg.supabase_url, cfg.supabase_service_role_key)
     
     # Create run record
-    run_id = sb.create_run(status="running", run_type=run_type)
+    run_id = sb.create_run(status="started", run_type=run_type)
     logger.info(f"Created run {run_id} (type={run_type})")
     
     stats = CollectorStats()

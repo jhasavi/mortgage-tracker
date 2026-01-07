@@ -9,8 +9,8 @@ from .base import BaseParser
 
 # Import all parsers
 from .dcu import DCUParser
-from .example_html_table import ExampleHTMLTableParser
-from .example_json_endpoint import ExampleJSONEndpointParser
+from .example_html_table import ExampleHtmlTableParser
+from .example_json_endpoint import ExampleJsonEndpointParser
 from .metro_cu import MetroCUParser
 from .rockland_trust import RocklandTrustParser
 
@@ -27,8 +27,8 @@ PARSER_REGISTRY: Dict[str, Type[BaseParser]] = {
     'rockland_trust': RocklandTrustParser,
     
     # Example parsers
-    'example_html_table': ExampleHTMLTableParser,
-    'example_json_endpoint': ExampleJSONEndpointParser,
+    'example_html_table': ExampleHtmlTableParser,
+    'example_json_endpoint': ExampleJsonEndpointParser,
     
     # TODO: Add more parsers as needed
 }
