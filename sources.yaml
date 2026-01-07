@@ -1,0 +1,34 @@
+# List of data sources (placeholder URLs)
+# method: parser module name (example_html_table or example_json_endpoint)
+
+defaults:
+  state: MA
+  loan_amount: 600000
+  ltv: 80
+  fico: 760
+  lock_days: 30
+
+sources:
+  - name: Example Bank A
+    org_type: bank
+    homepage_url: https://examplebanka.com
+    rate_url: https://examplebanka.com/mortgage-rates
+    method: example_html_table
+    enabled: true
+    notes: "Sample HTML table parser"
+
+  - name: Example CU B
+    org_type: credit_union
+    homepage_url: https://examplecub.org
+    rate_url: https://api.examplecub.org/v1/rates
+    method: example_json_endpoint
+    enabled: true
+    notes: "Sample JSON parser"
+
+  - name: Placeholder Lender C
+    org_type: lender
+    homepage_url: https://placeholderlenderc.com
+    rate_url: ""
+    method: example_html_table
+    enabled: false
+    notes: "Fill in later"

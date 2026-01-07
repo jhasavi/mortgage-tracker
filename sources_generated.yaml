@@ -1,0 +1,371 @@
+defaults:
+  state: MA
+  loan_amount: 600000
+  ltv: 80
+  fico: 760
+  lock_days: 30
+sources:
+- name: DCU (Digital Federal Credit Union)
+  org_type: lender
+  homepage_url: https://www.dcu.org/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Mortgage rates page
+  org_type: lender
+  homepage_url: https://www.dcu.org/borrow/mortgage-loans/home-mortgage-loans.html
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Rockland Federal Credit Union
+  org_type: lender
+  homepage_url: https://www.rfcu.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Metro Credit Union (MA)
+  org_type: lender
+  homepage_url: https://www.metrocu.org/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Mortgage quote page
+  org_type: lender
+  homepage_url: https://www.metrocu.org/mortgage-rate-quote
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Workers Credit Union
+  org_type: lender
+  homepage_url: https://www.wcu.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: "Jeanne D\u2019Arc Credit Union"
+  org_type: lender
+  homepage_url: https://www.jdcu.org/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: BrightBridge Credit Union
+  org_type: lender
+  homepage_url: https://www.brightbridge.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Hanscom Federal Credit Union
+  org_type: lender
+  homepage_url: https://www.hfcu.org/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Greylock Federal Credit Union
+  org_type: lender
+  homepage_url: https://www.greylock.org/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Webster First Federal Credit Union
+  org_type: lender
+  homepage_url: https://www.websterfirst.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: "St. Anne\u2019s Credit Union"
+  org_type: lender
+  homepage_url: https://www.stannes.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: MIT Federal Credit Union
+  org_type: lender
+  homepage_url: https://www.mitfcu.org/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Quincy Credit Union
+  org_type: lender
+  homepage_url: https://www.qcu.org/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: UMassFive College Federal Credit Union
+  org_type: lender
+  homepage_url: https://umassfive.coop/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: City of Boston Credit Union
+  org_type: lender
+  homepage_url: https://cityofbostoncu.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Align Credit Union
+  org_type: lender
+  homepage_url: https://www.aligncu.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Eastern Bank
+  org_type: lender
+  homepage_url: https://www.easternbank.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Rockland Trust
+  org_type: lender
+  homepage_url: https://www.rocklandtrust.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Cambridge Savings Bank
+  org_type: lender
+  homepage_url: https://www.cambridgesavings.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Middlesex Savings Bank
+  org_type: lender
+  homepage_url: https://www.middlesexbank.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Salem Five Bank
+  org_type: lender
+  homepage_url: https://www.salemfive.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Needham Bank
+  org_type: lender
+  homepage_url: https://www.needhambank.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Cape Cod 5
+  org_type: lender
+  homepage_url: https://www.capecodfive.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Berkshire Bank
+  org_type: lender
+  homepage_url: https://www.berkshirebank.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Brookline Bank
+  org_type: lender
+  homepage_url: https://www.brooklinebank.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: HarborOne Bank
+  org_type: lender
+  homepage_url: https://www.harborone.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Navy Federal Credit Union
+  org_type: lender
+  homepage_url: https://www.navyfederal.org/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: "State Employees\u2019 Credit Union (NCSECU)"
+  org_type: lender
+  homepage_url: https://www.ncsecu.org/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: PenFed Credit Union
+  org_type: lender
+  homepage_url: https://www.penfed.org/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: SchoolsFirst FCU
+  org_type: lender
+  homepage_url: https://www.schoolsfirstfcu.org/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: BECU
+  org_type: lender
+  homepage_url: https://www.becu.org/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Golden 1 Credit Union
+  org_type: lender
+  homepage_url: https://www.golden1.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Alliant Credit Union
+  org_type: lender
+  homepage_url: https://www.alliantcreditunion.org/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: America First Credit Union (UT)
+  org_type: lender
+  homepage_url: https://www.americafirst.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: First Tech Federal Credit Union
+  org_type: lender
+  homepage_url: https://www.firsttechfed.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Patelco Credit Union
+  org_type: lender
+  homepage_url: https://www.patelco.org/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: United Wholesale Mortgage (UWM)
+  org_type: lender
+  homepage_url: https://www.uwm.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Rocket Mortgage
+  org_type: lender
+  homepage_url: https://www.rocketmortgage.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Pennymac
+  org_type: lender
+  homepage_url: https://www.pennymac.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Newrez
+  org_type: lender
+  homepage_url: https://www.newrez.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Mr. Cooper
+  org_type: lender
+  homepage_url: https://www.mrcooper.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: loanDepot
+  org_type: lender
+  homepage_url: https://www.loandepot.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Rate (Guaranteed Rate)
+  org_type: lender
+  homepage_url: https://www.rate.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: CrossCountry Mortgage
+  org_type: lender
+  homepage_url: https://crosscountrymortgage.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Guild Mortgage
+  org_type: lender
+  homepage_url: https://www.guildmortgage.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Fairway Independent Mortgage
+  org_type: lender
+  homepage_url: https://www.fairway.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Movement Mortgage
+  org_type: lender
+  homepage_url: https://movement.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Freedom Mortgage
+  org_type: lender
+  homepage_url: https://www.freedommortgage.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: AmeriHome Mortgage
+  org_type: lender
+  homepage_url: https://www.amerihome.com/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Chase (JPMorgan Chase)
+  org_type: lender
+  homepage_url: https://www.chase.com/personal/mortgage
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'
+- name: Wells Fargo
+  org_type: lender
+  homepage_url: https://www.wellsfargo.com/mortgage/
+  rate_url: ''
+  method: example_html_table
+  enabled: false
+  notes: 'TODO: add rate URL and parser'

@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mortgage-tracker"
+version = "0.1.0"
+description = "Daily mortgage rate collector"
+authors = [{ name = "Mortgage Tracker", email = "ops@example.com" }]
+requires-python = ">=3.9"
+dependencies = [
+  "requests>=2.31.0",
+  "python-dotenv>=1.0.0",
+  "PyYAML>=6.0.1",
+  "supabase>=2.4.0",
+  "tenacity>=8.2.3",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
