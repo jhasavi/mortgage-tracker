@@ -14,8 +14,8 @@ sources:
     name: DCU (Digital Federal Credit Union)
     org_type: credit_union
     homepage_url: https://www.dcu.org/
-    url: https://www.dcu.org/borrow/mortgage-loans/home-mortgage-loans.html
-    method: dcu
+    rate_url: https://www.dcu.org/borrow/mortgage-loans/home-mortgage-loans.html
+    parser_key: dcu
     enabled: true
     tags: [MA_local, cu]
     
@@ -33,11 +33,11 @@ sources:
     name: Metro Credit Union (MA)
     org_type: credit_union
     homepage_url: https://www.metrocu.org/
-    url: https://www.metrocu.org/mortgage-rate-quote
-    method: none
-    enabled: false
+    rate_url: https://www.metrocu.org/mortgage-rate-quote
+    parser_key: metro_cu
+    enabled: true
     tags: [MA_local, cu, needs_quote_flow]
-    notes: "Quote form only"
+    notes: "Attempting to parse quote page"
     
   - id: workers_cu
     name: Workers Credit Union
@@ -164,9 +164,9 @@ sources:
     name: Rockland Trust
     org_type: bank
     homepage_url: https://www.rocklandtrust.com/
-    url: https://www.rocklandtrust.com/
-    method: none
-    enabled: false
+    rate_url: https://www.rocklandtrust.com/personal/home-financing/residential-mortgages
+    parser_key: rockland_trust
+    enabled: true
     tags: [MA_local, bank]
     
   - id: cambridge_savings

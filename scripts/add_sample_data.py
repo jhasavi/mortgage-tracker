@@ -180,8 +180,11 @@ def main():
     
     supabase = create_client(url, key)
     
-    # Create a new run
-    run_data = {"status": "started"}
+    # Create a new run (marked as sample)
+    run_data = {
+        "status": "started",
+        "run_type": "sample"  # Mark as sample data
+    }
     run_result = supabase.table("runs").insert(run_data).execute()
     run_id = run_result.data[0]["id"]
     print(f"Created run {run_id}")
@@ -218,6 +221,7 @@ def main():
             "term_months": 360 if "30Y" in rate["category"] else (180 if "15Y" in rate["category"] else 360),
             "lock_days": 30,
             "details_json": rate,
+            "data_source": "sample",  # Mark as sample data
         }
         offers_to_insert.append(offer)
     

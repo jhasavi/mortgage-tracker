@@ -11,11 +11,14 @@ class SupabaseWriter:
     def __init__(self, url: str, service_key: str):
         self.client: Client = create_client(url, service_key)
 
-    def create_run(self, status: str = "started") -> int:
-        data = {"status": status}
+    def create_run(self, status: str = "started", run_type: str = "real") -> int:
+        data = {
+            "status": status,
+            "run_type": run_type,
+        }
         res = self.client.table("runs").insert(data).execute()
         run_id = res.data[0]["id"]
-        logger.info("run_created", extra={"run_id": run_id})
+        logger.info("run_created", extra={"run_id": run_id, "run_type": run_type})
         return run_id
 
     def finish_run(self, run_id: int, status: str, stats: Optional[Dict[str, Any]] = None, error_text: Optional[str] = None) -> None:
