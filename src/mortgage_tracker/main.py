@@ -20,6 +20,9 @@ def _get_parser(method: str):
     if method == "example_json_endpoint":
         from .parsers.example_json_endpoint import ExampleJsonEndpointParser
         return ExampleJsonEndpointParser()
+    if method == "dcu":
+        from .parsers.dcu import DCUParser
+        return DCUParser()
     raise ValueError(f"Unknown method: {method}")
 
 

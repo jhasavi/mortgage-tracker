@@ -9,13 +9,13 @@ defaults:
   lock_days: 30
 
 sources:
-  - name: Example Bank A
-    org_type: bank
-    homepage_url: https://examplebanka.com
-    rate_url: https://examplebanka.com/mortgage-rates
-    method: example_html_table
+  - name: DCU (Digital Federal Credit Union)
+    org_type: credit_union
+    homepage_url: https://www.dcu.org/
+    rate_url: https://www.dcu.org/borrow/mortgage-loans/home-mortgage-loans.html
+    method: dcu
     enabled: true
-    notes: "Sample HTML table parser"
+    notes: "Parses schema.org structured data"
 
   - name: Example CU B
     org_type: credit_union
