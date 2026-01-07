@@ -28,13 +28,23 @@ class NavyFederalParser(BaseParser):
                 min_columns=4
             )
             
+            # Deduplicate exact duplicates (same rate, APR, points for same category)
+            seen = set()
+            unique_offers = []
             for offer in offers:
-                logger.info(f"parsed_offer: {offer['category']} @ {offer['rate']}% (APR {offer['apr']}%)")
-                
-            if not offers:
+                key = (offer['category'], offer['rate'], offer['apr'], offer['points'])
+                if key not in seen:
+                    seen.add(key)
+                    unique_offers.append(offer)
+                    logger.info(f"parsed_offer: {offer['category']} @ {offer['rate']}% (APR {offer['apr']}%, points {offer['points']}%)")
+            
+            if len(unique_offers) < len(offers):
+                logger.info(f"Removed {len(offers) - len(unique_offers)} duplicate offers")
+            
+            if not unique_offers:
                 logger.warning("no_rates_found_in_tables")
                 
-            return offers
+            return unique_offers
             
         except Exception as e:
             logger.error(f"parse_error: {str(e)}")

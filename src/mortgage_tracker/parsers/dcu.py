@@ -72,15 +72,20 @@ class DCUParser(BaseParser):
                     
                 product = row[0].lower()
                 
+                # Skip non-standard loan types to avoid duplicates
+                # DCU has multiple tables for standard, jumbo, construction, etc.
+                # We only want standard/primary rates
+                if any(skip in product for skip in ['jumbo', 'construction', 'lot', 'second home', 'investment']):
+                    continue
+                
                 # Identify category
                 category = None
                 if '30' in product and 'year' in product:
-                    if 'jumbo' in product:
-                        category = "30Y fixed"  # Treat jumbo as 30Y for now
-                    else:
-                        category = "30Y fixed"
+                    category = "30Y fixed"
                 elif '15' in product and 'year' in product:
                     category = "15Y fixed"
+                elif '20' in product and 'year' in product:
+                    category = "20Y fixed"
                 elif '5' in product and ('arm' in product or '/' in product):
                     category = "5/6 ARM"
                     
@@ -94,8 +99,12 @@ class DCUParser(BaseParser):
                 
                 if rate is None or apr is None:
                     continue
+                
+                # Skip unrealistic rates (likely parsing errors from other tables)
+                if rate > 10 or apr > 10:
+                    continue
                     
-                term_years = 30 if '30' in category else (15 if '15' in category else 30)
+                term_years = 30 if '30' in category else (15 if '15' in category else (20 if '20' in category else 30))
                 
                 offers.append({
                     "lender_name": "DCU (Digital Federal Credit Union)",
@@ -108,6 +117,16 @@ class DCUParser(BaseParser):
                 })
                 
                 logger.info(f"parsed_offer: {category} @ {rate}% (APR {apr}%, points {points}%)")
+            
+            # Deduplicate: keep only the best (lowest APR) rate for each category
+            seen = {}
+            for offer in offers:
+                key = offer['category']
+                if key not in seen or offer['apr'] < seen[key]['apr']:
+                    seen[key] = offer
+            
+            offers = list(seen.values())
+            logger.info(f"After deduplication: {len(offers)} unique offers")
             
             if not offers:
                 logger.warning("no_rates_found_in_tables")
