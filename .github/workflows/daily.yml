@@ -2,13 +2,14 @@ name: Daily mortgage rates
 
 on:
   schedule:
-    # 07:30 America/New_York == 12:30 UTC
+    # 07:30 America/New_York == 12:30 UTC (standard time)
     - cron: "30 12 * * *"
   workflow_dispatch:
 
 jobs:
   fetch-and-store:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -16,25 +17,28 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install .
 
-      - name: Run collector (real data)
+      - name: Run collector + verification (real data)
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE }}
+          SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
           EMAIL_PROVIDER_KEY: ${{ secrets.EMAIL_PROVIDER_KEY }}
           DEFAULT_STATE: MA
-          DEFAULT_LOAN_AMOUNT: '600000'
-          DEFAULT_LTV: '80'
-          DEFAULT_FICO: '760'
-          DEFAULT_LOCK_DAYS: '30'
+          DEFAULT_LOAN_AMOUNT: "600000"
+          DEFAULT_LTV: "80"
+          DEFAULT_FICO: "760"
+          DEFAULT_LOCK_DAYS: "30"
         run: |
-          python -m mortgage_tracker.main --run-type real
+          set -euxo pipefail
+          # Map GitHub secret name -> expected env var
+          export SUPABASE_SERVICE_ROLE_KEY="$SUPABASE_SERVICE_ROLE"
+          bash scripts/run_verify.sh
 
       - name: Archive logs
         if: always()
