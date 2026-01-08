@@ -21,6 +21,7 @@ SAMPLE_RATES = [
         "apr": 5.933,
         "points": 0.0,
         "lender_fees": 0.0,
+        "details_json": {"source_label": "sample"},
     },
     {
         "lender_name": "Metro Credit Union (MA)",
@@ -29,6 +30,7 @@ SAMPLE_RATES = [
         "apr": 6.012,
         "points": 0.0,
         "lender_fees": 995.0,
+        "details_json": {"source_label": "sample"},
     },
     {
         "lender_name": "Metro Credit Union (MA)",
@@ -37,6 +39,7 @@ SAMPLE_RATES = [
         "apr": 5.421,
         "points": 0.0,
         "lender_fees": 995.0,
+        "details_json": {"source_label": "sample"},
     },
     {
         "lender_name": "Rockland Trust",
@@ -45,6 +48,7 @@ SAMPLE_RATES = [
         "apr": 6.125,
         "points": 0.5,
         "lender_fees": 1295.0,
+        "details_json": {"source_label": "sample"},
     },
     {
         "lender_name": "Rockland Trust",
@@ -53,6 +57,7 @@ SAMPLE_RATES = [
         "apr": 5.521,
         "points": 0.5,
         "lender_fees": 1295.0,
+        "details_json": {"source_label": "sample"},
     },
     {
         "lender_name": "Eastern Bank",
@@ -61,6 +66,7 @@ SAMPLE_RATES = [
         "apr": 5.978,
         "points": 0.25,
         "lender_fees": 1150.0,
+        "details_json": {"source_label": "sample"},
     },
     {
         "lender_name": "Cambridge Savings Bank",
@@ -69,6 +75,7 @@ SAMPLE_RATES = [
         "apr": 6.089,
         "points": 0.0,
         "lender_fees": 1250.0,
+        "details_json": {"source_label": "sample"},
     },
     {
         "lender_name": "Cambridge Savings Bank",
@@ -77,6 +84,7 @@ SAMPLE_RATES = [
         "apr": 5.531,
         "points": 0.0,
         "lender_fees": 1250.0,
+        "details_json": {"source_label": "sample"},
     },
     # National lenders
     {
@@ -86,6 +94,7 @@ SAMPLE_RATES = [
         "apr": 6.287,
         "points": 0.0,
         "lender_fees": 1495.0,
+        "details_json": {"source_label": "sample"},
     },
     {
         "lender_name": "Rocket Mortgage",
@@ -94,6 +103,7 @@ SAMPLE_RATES = [
         "apr": 5.689,
         "points": 0.0,
         "lender_fees": 1495.0,
+        "details_json": {"source_label": "sample"},
     },
     {
         "lender_name": "Rocket Mortgage",
@@ -102,6 +112,7 @@ SAMPLE_RATES = [
         "apr": 6.821,
         "points": 0.0,
         "lender_fees": 1495.0,
+        "details_json": {"source_label": "sample"},
     },
     {
         "lender_name": "PenFed Credit Union",
@@ -110,6 +121,7 @@ SAMPLE_RATES = [
         "apr": 5.899,
         "points": 0.0,
         "lender_fees": 750.0,
+        "details_json": {"source_label": "sample"},
     },
     {
         "lender_name": "PenFed Credit Union",
@@ -118,6 +130,7 @@ SAMPLE_RATES = [
         "apr": 5.287,
         "points": 0.0,
         "lender_fees": 750.0,
+        "details_json": {"source_label": "sample"},
     },
     {
         "lender_name": "Navy Federal Credit Union",
@@ -126,6 +139,7 @@ SAMPLE_RATES = [
         "apr": 6.001,
         "points": 0.0,
         "lender_fees": 850.0,
+        "details_json": {"source_label": "sample"},
     },
     {
         "lender_name": "Navy Federal Credit Union",
@@ -134,6 +148,7 @@ SAMPLE_RATES = [
         "apr": 5.398,
         "points": 0.0,
         "lender_fees": 850.0,
+        "details_json": {"source_label": "sample"},
     },
     {
         "lender_name": "Wells Fargo",
@@ -142,6 +157,7 @@ SAMPLE_RATES = [
         "apr": 6.425,
         "points": 0.5,
         "lender_fees": 1795.0,
+        "details_json": {"source_label": "sample"},
     },
     {
         "lender_name": "Wells Fargo",
@@ -150,7 +166,7 @@ SAMPLE_RATES = [
         "apr": 5.821,
         "points": 0.5,
         "lender_fees": 1795.0,
-    },
+        "details_json": {"source_label": "sample"},
     {
         "lender_name": "Chase",
         "category": "30Y fixed",
@@ -191,7 +207,7 @@ def main():
     
     # Create a dummy source
     source_data = {
-        "name": "Sample Data Generator",
+        "name": "Sample Data (demo)",
         "org_type": "system",
         "homepage_url": "https://example.com",
         "rate_url": "https://example.com",
@@ -202,9 +218,20 @@ def main():
     source_result = supabase.table("sources").upsert(source_data, on_conflict="name").execute()
     source_id = source_result.data[0]["id"]
     
-    # Insert offers
+    # Insert offers (deduplicated by unique key)
     offers_to_insert = []
+    seen_keys = set()
     for rate in SAMPLE_RATES:
+        loan_amount = 600000
+        ltv = 80
+        fico = 760
+        lock_days = 30
+        points = rate.get("points", 0.0)
+        unique_key = (rate["lender_name"], rate["category"], loan_amount, ltv, fico, lock_days, points)
+        if unique_key in seen_keys:
+            continue
+        seen_keys.add(unique_key)
+
         offer = {
             "run_id": run_id,
             "source_id": source_id,
@@ -212,20 +239,21 @@ def main():
             "category": rate["category"],
             "rate": rate["rate"],
             "apr": rate["apr"],
-            "points": rate.get("points", 0.0),
+            "points": points,
             "lender_fees": rate.get("lender_fees"),
-            "loan_amount": 600000,
-            "ltv": 80,
-            "fico": 760,
+            "loan_amount": loan_amount,
+            "ltv": ltv,
+            "fico": fico,
             "state": "MA",
             "term_months": 360 if "30Y" in rate["category"] else (180 if "15Y" in rate["category"] else 360),
-            "lock_days": 30,
+            "lock_days": lock_days,
             "details_json": rate,
             "data_source": "sample",  # Mark as sample data
         }
         offers_to_insert.append(offer)
-    
-    supabase.table("offers_normalized").insert(offers_to_insert).execute()
+
+    if offers_to_insert:
+        supabase.table("offers_normalized").insert(offers_to_insert).execute()
     print(f"Inserted {len(offers_to_insert)} sample offers")
     
     # Mark run as success
