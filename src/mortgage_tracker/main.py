@@ -14,6 +14,7 @@ from .fetch import fetch_url
 from .normalize import normalize_offers
 from .supabase_client import SupabaseWriter
 from .parsers import get_parser
+from .validate import validate_offer
 
 # Configure structured logging
 logging.basicConfig(
@@ -158,19 +159,58 @@ def run_collector(run_type: str = "real", sources_path: str = None) -> Dict[str,
             if raw_offers:
                 normalized = normalize_offers(raw_offers, cfg.defaults)
                 
+                # Validation and deduplication
+                valid_offers = []
+                seen_keys = set()
+                
                 for offer in normalized:
+                    # Validate offer
+                    is_valid, issues = validate_offer(offer)
+                    if not is_valid:
+                        logger.warning(f"❌ Invalid offer from {source_name}: {', '.join(issues)}")
+                        stats.parse_errors.append({
+                            "source": source_name, 
+                            "error": f"Validation failed: {issues[0]}"
+                        })
+                        continue
+                    
+                    # Deduplication key: source_id + lender_name + category + data profile
+                    offer_key = (
+                        source_id,
+                        offer.get("lender_name"),
+                        offer.get("category"),
+                        offer.get("loan_amount"),
+                        offer.get("ltv"),
+                        offer.get("fico"),
+                        offer.get("lock_days"),
+                        offer.get("points"),
+                    )
+                    
+                    if offer_key in seen_keys:
+                        logger.debug(f"Skipping duplicate: {offer.get('lender_name')} {offer.get('category')}")
+                        continue
+                    
+                    seen_keys.add(offer_key)
+                    
+                    # Add run metadata
                     offer["run_id"] = run_id
                     offer["source_id"] = source_id
                     offer["data_source"] = "sample" if run_type == "sample" else "real"
+                    
+                    valid_offers.append(offer)
                 
-                sb.insert_offers(normalized)
-                stats.offers_inserted += len(normalized)
-                stats.sources_success += 1
-                
-                logger.info(
-                    f"✅ {source_name}: Inserted {len(normalized)} offers "
-                    f"(snapshot_id={snap_id})"
-                )
+                if valid_offers:
+                    sb.insert_offers(valid_offers)
+                    stats.offers_inserted += len(valid_offers)
+                    stats.sources_success += 1
+                    
+                    logger.info(
+                        f"✅ {source_name}: Inserted {len(valid_offers)} valid offers "
+                        f"(rejected {len(normalized) - len(valid_offers)}, snapshot_id={snap_id})"
+                    )
+                else:
+                    logger.warning(f"⚠️  {source_name}: All {len(normalized)} offers rejected by validation")
+                    stats.sources_failed += 1
             else:
                 stats.sources_failed += 1
                 

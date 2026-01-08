@@ -1,26 +1,92 @@
-# Mortgage Tracker
+# Mortgage Rate Tracker
 
-Daily mortgage rate collector that fetches rates from 50+ lenders, normalizes them into standard categories, stores in Supabase, and powers a public `/rates` page on your website.
+Automated mortgage rate collection system that fetches daily rates from multiple sources and publishes them to a public website.
+
+**Live Page:** https://www.namastebostonhomes.com/rates
+
+## Architecture
+
+### Data Sources (Two Types)
+
+The system uses a hybrid approach to ensure reliable data coverage:
+
+#### 1. **Aggregator Sources** (Priority 1)
+Marketplace websites that publish rates from multiple lenders in easily parseable formats.
+
+- **Bankrate** (`bankrate_marketplace`)
+  - URL: https://www.bankrate.com/mortgages/mortgage-rates/
+  - Format: Static HTML tables with daily national averages
+  - Coverage: 10+ lenders across all categories
+  - Reliability: ⭐⭐⭐⭐⭐ High (no anti-bot, consistent structure)
+
+- **NerdWallet** (`nerdwallet_marketplace`)
+  - URL: https://www.nerdwallet.com/mortgages/mortgage-rates
+  - Format: Clean HTML tables (sourced from Zillow)
+  - Coverage: 10+ lenders across all categories
+  - Reliability: ⭐⭐⭐⭐⭐ High (no anti-bot, daily updates)
+
+**Advantages:**
+- One aggregator parser = 10+ lender offers automatically
+- No anti-bot blocking (public data intended for aggregation)
+- Consistent HTML structure (easy maintenance)
+- Daily updates with timestamps
+
+**Trade-offs:**
+- Shows national averages (not personalized quotes)
+- May not reflect all local credit unions
+- Labeled as "marketplace data" on website
+
+#### 2. **Direct Lender Sources**
+Individual lender websites parsed directly.
+
+- **DCU (Digital Federal Credit Union)** (`dcu`)
+  - URL: https://www.dcu.org/borrow/mortgage-loans/home-mortgage-loans.html
+  - Format: HTML tables with rate/APR/points
+  - Reliability: ⭐⭐⭐⭐ High (MA-local data)
+
+**Advantages:**
+- More accurate for specific lenders
+- Can include local credit unions
+- May show points/fees data
+
+**Challenges:**
+- Many lenders use quote flows (no static rates)
+- Anti-bot protections (Navy Federal, others)
+- Frequent site redesigns break parsers
+- Higher maintenance burden
+
+**Status:** Most direct lender parsers are currently disabled due to anti-bot blocking or quote-flow requirements. We keep DCU enabled as proof-of-concept and will expand as we add headless browser support (Playwright).
+
+### Data Flow
+
+```
+sources.yaml → main.py → parsers → normalize → validate → Supabase
+                                                              ↓
+                                                    RPC: get_latest_rates_with_fallback
+                                                              ↓
+                                                    Website: /rates page
+```
 
 ## Overview
 
-**Goal**: Automate daily collection of mortgage rates from reputable lenders/credit unions and display the best offers on `namastebostonhomes.com/rates`.
+**Goal**: Automate daily collection of mortgage rates from lenders and aggregators, displaying the best offers on `namastebostonhomes.com/rates`.
 
-**Architecture**:
-- **This repo** (`mortgage-tracker`): Python collector + parsers + GitHub Actions cron job
-- **Website repo** (`/Users/Sanjeev/nb`): Next.js `/rates` page that reads from Supabase
-- **Supabase**: Shared database with RLS for secure public reads
+**Components**:
+- **This repo** (`mortgage-tracker`): Python collector + parsers + GitHub Actions
+- **Website repo** (`nb`): Next.js `/app/rates` page that reads from Supabase
+- **Supabase**: Database with RLS for secure public reads
 
 ## Features
 
-- ✅ Fetches rates from 50+ configurable sources
+- ✅ Fetches rates from aggregators (Bankrate, NerdWallet) + direct lenders (DCU)
 - ✅ Normalizes into 5 categories: 30Y fixed, 15Y fixed, 5/6 ARM, FHA 30Y, VA 30Y
+- ✅ Validates all offers (rate/APR ranges, APR ≥ rate)
+- ✅ Deduplicates offers per run
 - ✅ Stores raw snapshots + normalized offers in Supabase
-- ✅ RLS-protected: public can only view latest results via safe VIEW
+- ✅ RLS-protected: public can only view latest real data via RPC
 - ✅ Daily GitHub Actions job (07:30 ET)
 - ✅ Per-source error handling (one failure doesn't kill entire run)
 - ✅ Structured JSON logging
-- ✅ Request timeouts + retries
 
 ## Setup
 

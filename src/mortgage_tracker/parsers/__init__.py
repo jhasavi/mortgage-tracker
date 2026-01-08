@@ -20,13 +20,19 @@ from .ncsecu import NCSECUParser
 from .america_first import AmericaFirstParser
 from .first_tech import FirstTechParser
 from .patelco import PatelcoParser
+from .bankrate_marketplace import BankrateMarketplaceParser
+from .nerdwallet_marketplace import NerdWalletMarketplaceParser
 
 # Import real parsers (add more as we build them)
 # TODO: Add more parsers as they are implemented
 
 # Parser registry: maps parser_key -> Parser class
 PARSER_REGISTRY: Dict[str, Type[BaseParser]] = {
-    # High reliability parsers (consistently work)
+    # Aggregator parsers (high reliability, multiple lenders)
+    'bankrate_marketplace': BankrateMarketplaceParser,
+    'nerdwallet_marketplace': NerdWalletMarketplaceParser,
+    
+    # High reliability direct parsers (consistently work)
     'dcu': DCUParser,
     'navy_federal': NavyFederalParser,
     

@@ -12,8 +12,38 @@ defaults:
 # - untested: Not yet tested or no parser implemented
 #
 # Priority: high reliability parsers are enabled first to ensure good data coverage
+#
+# Source types:
+# - aggregator: Publishes rates from multiple lenders (e.g., Bankrate, NerdWallet)
+# - direct: Fetches rates directly from individual lender website
 
 sources:
+  # ========================================
+  # AGGREGATOR SOURCES (Priority 1)
+  # ========================================
+  # These provide 10+ lender offers each and are highly reliable
+  
+  - id: bankrate_marketplace
+    name: Bankrate Mortgage Rates
+    org_type: aggregator
+    homepage_url: https://www.bankrate.com/
+    rate_url: https://www.bankrate.com/mortgages/mortgage-rates/
+    parser_key: bankrate_marketplace
+    enabled: true
+    parser_reliability: high
+    tags: [aggregator, national]
+    notes: "Daily mortgage rate averages from multiple national lenders. Static HTML table."
+    
+  - id: nerdwallet_marketplace
+    name: NerdWallet Mortgage Rates
+    org_type: aggregator
+    homepage_url: https://www.nerdwallet.com/
+    rate_url: https://www.nerdwallet.com/mortgages/mortgage-rates
+    parser_key: nerdwallet_marketplace
+    enabled: true
+    parser_reliability: high
+    tags: [aggregator, national]
+    notes: "Daily mortgage rate data sourced from Zillow. Clean table format."
   # ========================================
   # Massachusetts Credit Unions (15)
   # ========================================
@@ -45,9 +75,9 @@ sources:
     homepage_url: https://www.metrocu.org/
     rate_url: https://www.metrocu.org/mortgage-rate-quote
     parser_key: metro_cu
-    enabled: true
+    enabled: false
     tags: [MA_local, cu, needs_quote_flow]
-    notes: "Attempting to parse quote page"
+    notes: "Quote flow only, no static rates. Disabled for MVP."
     
   - id: workers_cu
     name: Workers Credit Union
@@ -176,8 +206,9 @@ sources:
     homepage_url: https://www.rocklandtrust.com/
     rate_url: https://www.rocklandtrust.com/personal/home-financing/residential-mortgages
     parser_key: rockland_trust
-    enabled: true
+    enabled: false
     tags: [MA_local, bank]
+    notes: "No static rate table found. Disabled for MVP."
     
   - id: cambridge_savings
     name: Cambridge Savings Bank
@@ -261,10 +292,10 @@ sources:
     homepage_url: https://www.navyfederal.org/
     rate_url: https://www.navyfederal.org/loans-cards/mortgage/mortgage-rates.html
     parser_key: navy_federal
-    enabled: true
-    parser_reliability: high
+    enabled: false
+    parser_reliability: low
     tags: [national, cu]
-    notes: "Clean HTML table with rate/APR/points"
+    notes: "Anti-bot redirects detected. Disabled for MVP until Playwright added."
     
   - id: ncsecu
     name: State Employees' Credit Union (NCSECU)
@@ -343,10 +374,10 @@ sources:
     homepage_url: https://www.firsttechfed.com/
     rate_url: https://www.firsttechfed.com/home-loans/mortgage-rates
     parser_key: first_tech
-    enabled: true
-    parser_reliability: medium
+    enabled: false
+    parser_reliability: low
     tags: [national, cu]
-    notes: "Testing parser"
+    notes: "URL returns 404. Disabled for MVP."
     
   - id: patelco_cu
     name: Patelco Credit Union
@@ -354,10 +385,10 @@ sources:
     homepage_url: https://www.patelco.org/
     rate_url: https://www.patelco.org/rates
     parser_key: patelco
-    enabled: true
-    parser_reliability: medium
+    enabled: false
+    parser_reliability: low
     tags: [national, cu]
-    notes: "Testing parser"
+    notes: "URL only shows savings rates, not mortgage rates. Disabled for MVP."
     
   # ========================================
   # Nationwide Lenders (15)

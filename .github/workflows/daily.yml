@@ -44,24 +44,26 @@ jobs:
         if: always()
         uses: dawidd6/action-send-mail@v3
         with:
-          server_address: smtp.gmail.com
-          server_port: 465
-          secure: true
-          username: ${{ secrets.GMAIL_USERNAME }}
-          password: ${{ secrets.GMAIL_APP_PASSWORD }}
-          subject: "Mortgage Rates Update - ${{ job.status }}"
+          server_address: smtp.resend.com
+          server_port: 587
+          secure: false
+          username: resend
+          password: ${{ secrets.RESEND_API_KEY }}
+          subject: "✅ Mortgage Rates Updated - ${{ job.status }}"
           to: jhasavi@gmail.com
-          from: Mortgage Rate Tracker <noreply@namastebostonhomes.com>
+          from: Mortgage Rate Tracker <noreply@updates.namastebostonhomes.com>
           body: |
-            Daily mortgage rates collection completed.
+            Daily mortgage rates collection completed at $(date).
             
-            Status: ${{ job.status }}
-            Run: ${{ github.run_number }}
-            Time: ${{ github.event.repository.updated_at }}
-            
-            View details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            📊 Status: ${{ job.status }}
+            🔗 Details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
             
             Latest rates: https://www.namastebostonhomes.com/rates
+            
+            Current lenders: DCU, Navy Federal (2 high-reliability sources)
+            
+            ---
+            Namaste Boston Homes - Mortgage Rate Tracker
 
       - name: Archive logs
         if: always()
